@@ -3208,7 +3208,7 @@ classdef arrShow < handle
             uimenu(menuHandle,'Label','Edit'         ,'callback',@(src,evnt)colormapEditorCb(obj),'separator','on');
             uimenu(menuHandle,'Label','Load'         ,'callback',@(src,evnt)obj.loadColormap);
             uimenu(menuHandle,'Label','Store'        ,'callback',@(src,evnt)obj.storeColormap);
-            
+            uimenu(menuHandle,'Label','qMRI (alt+q)'     ,'callback',@(src,evnt)cb('qMRI'), 'Separator', 'on');
             uimenu(menuHandle,'Label','Gray (g)'     ,'callback',@(src,evnt)cb('gray(256)'), 'Separator', 'on');
             uimenu(menuHandle,'Label','Gray periodic','callback',@(src,evnt)cb('gray_periodic(256)'));
             uimenu(menuHandle,'Label','martin_phase' ,'callback',@(src,evnt)cb('martin_phase(256)'));
@@ -3765,7 +3765,8 @@ classdef arrShow < handle
 						obj.setColormap('seismic');
 					case 'ar'
 						obj.setColormap('rdbu_r');
-                        
+                    case 'aq'
+                        obj.setColormap('qMRI');                     
                         % windowing
                     case 'cc'
                         obj.window.copyAbsWindow();

@@ -46,6 +46,9 @@ end
 % display
 imageHandle = zeros(noFrames,1);
 axesHandle  = zeros(noFrames,1);
+
+use_qMRI_colormaps = strcmp(colorMap, 'qMRI');
+
 for n=1:noFrames
     
     % image position
@@ -59,6 +62,27 @@ for n=1:noFrames
         set(ah,'position',[pixelPos(1:2), dimY, dimX]);
     end
     currImg = imgArr(:,:,n);
+
+    % Get the colormap for the current subplot
+    if use_qMRI_colormaps
+        if n == 1
+            colorMap = 'lipari';
+        elseif n == 2
+            colorMap = 'navia';
+        elseif n == 3
+            colorMap = 'viridis';
+        elseif n == 4
+            colorMap = 'rdbu_r';
+        elseif n == 5
+            colorMap = 'gray';
+        elseif n == 6
+            colorMap = 'martin_phase(256)';
+        else
+            colorMap = 'gray';
+        end
+    end
+
+    % colorMap = colormaps{n};
     
     if useQuiver              
         imageHandle(n) = quiver(real(currImg),imag(currImg),...
@@ -83,7 +107,12 @@ for n=1:noFrames
         end
         % sssr: matlab 2017b + version does not update colormap without next line 
         set(ah,'NextPlot','replacechildren');
-        imageHandle(n) = imagesc(currImg,'Parent',ah);           
+        imageHandle(n) = imagesc(currImg,'Parent',ah);    
+        
+        % add a colorbar
+        if use_qMRI_colormaps
+            colorbar(ah);
+        end
 
         if isComplex
             if (CLim(1) == CLim(2))
