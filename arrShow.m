@@ -3215,6 +3215,8 @@ classdef arrShow < handle
             uimenu(menuHandle,'Label','Red/Green periodic','callback',@(src,evnt)cb('redgreen_periodic'));
             uimenu(menuHandle,'Label','Jet (j)'      ,'callback',@(src,evnt)cb('jet(256)'));
             uimenu(menuHandle,'Label','YlGnBu_r (y)'     ,'callback',@(src,evnt)cb('YlGnBu_r'));
+            uimenu(menuHandle,'Label','lipari (alt + l)' ,'callback',@(src,evnt)cb('lipari'));
+            uimenu(menuHandle,'Label','navia (alt + n)' ,'callback',@(src,evnt)cb('navia'));
 			uimenu(menuHandle,'Label','viridis  (alt+v)' ,'callback',@(src,evnt)cb('viridis'));
 			uimenu(menuHandle,'Label','RdBu_r (alt+r)'     ,'callback',@(src,evnt)cb('RdBu_r'));
 			uimenu(menuHandle,'Label','seismic (alt+s)'     ,'callback',@(src,evnt)cb('seismic'));
@@ -3761,6 +3763,10 @@ classdef arrShow < handle
                         obj.setColormap('ylgnbu_r');
 					case 'av'
 						obj.setColormap('viridis');
+                    case 'al'
+                        obj.setColormap('lipari');
+                    case 'an'
+                        obj.setColormap('navia');
 					case 'as'
 						obj.setColormap('seismic');
 					case 'ar'
