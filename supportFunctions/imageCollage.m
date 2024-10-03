@@ -49,7 +49,34 @@ axesHandle  = zeros(noFrames,1);
 
 use_qMRI_colormaps = strcmp(colorMap, 'qMRI');
 
+% Set the qMRI colormaps depending on the number of frames 
+if noFrames == 2
+    % If there are three frames, it is assumed the maps correspond to T1, T2
+    qMRIColorMaps = {'lipari', 'navia'};    
+elseif noFrames == 3 
+    % If there are three frames, it is assumed the maps correspond to T1, T2 and abs(PD) 
+    qMRIColorMaps = {'lipari', 'navia', 'gray'};
+elseif noFrames == 4
+    % If there are four frames, it is assumed the maps correspond to T1, T2, B1 and abs(PD) 
+    qMRIColorMaps = {'lipari', 'navia', 'viridis', 'gray'};
+elseif noFrames == 6
+    % If there are six frames, it is assumed the maps correspond to:
+    % T1, T2, B1, B0, abs(PD), angle(PD) 
+    qMRIColorMaps = {'lipari', 'navia', 'viridis', 'rdbu_r', 'gray', 'martin_phase(256)'};
+else
+    % No qMRI colormaps are used
+    
+    % Fill cells with grayscale colormap
+    qMRIColorMaps = cell(1, noFrames);
+    for i = 1:noFrames
+        qMRIColorMaps{i} = 'gray';
+    end
+    % qMRIColorMaps = {};
+end
+
 for n=1:noFrames
+
+    disp(['Displaying frame ', num2str(n), ' of ', num2str(noFrames)]);
     
     % image position
     x0 = mod((n-1),nCols)  * colWidth + xBorder2;
@@ -65,25 +92,9 @@ for n=1:noFrames
 
     % Get the colormap for the current subplot
     if use_qMRI_colormaps
-        if n == 1
-            colorMap = 'lipari';
-        elseif n == 2
-            colorMap = 'navia';
-        elseif n == 3
-            colorMap = 'viridis';
-        elseif n == 4
-            colorMap = 'rdbu_r';
-        elseif n == 5
-            colorMap = 'gray';
-        elseif n == 6
-            colorMap = 'martin_phase(256)';
-        else
-            colorMap = 'gray';
-        end
+        colorMap = qMRIColorMaps{n};
     end
 
-    % colorMap = colormaps{n};
-    
     if useQuiver              
         imageHandle(n) = quiver(real(currImg),imag(currImg),...
             'Parent',ah);
